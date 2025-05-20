@@ -4,68 +4,114 @@ import { RequirementsContext } from '../context/RequirementsContext';
 import './Requirements.css';
 
 export default function Requirements() {
-    const { requirements, setRequirements } = useContext(RequirementsContext);
-    const [errors, setErrors] = useState({});
-    const navigate = useNavigate();
+  const { requirements, setRequirements } = useContext(RequirementsContext);
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
-const [form, setForm] = useState({
+  const [form, setForm] = useState({
     nombre: requirements.nombre,
     presupuesto: requirements.presupuesto,
     direccion: requirements.direccion,
     tipoEntrega: requirements.tipoEntrega,
-});
+  });
 
-const handleChange = (e) => {
-const { name, value } = e.target;
+  const validate = () => {
+    const newErrors = {};
+    if (!form.nombre.trim()) newErrors.nombre = 'El nombre es obligatorio.';
+    else if (form.nombre.trim().length > 20)
+      newErrors.nombre = 'El nombre no puede tener más de 20 caracteres.';
+
+    if (!form.presupuesto || isNaN(form.presupuesto))
+      newErrors.presupuesto = 'El presupuesto es obligatorio y debe ser un número.';
+    else if (Number(form.presupuesto) <= 0)
+      newErrors.presupuesto = 'El presupuesto debe ser mayor que cero.';
+
+    if (!form.direccion.trim()) newErrors.direccion = 'La dirección es obligatoria.';
+
+    if (!['domicilio', 'retiro'].includes(form.tipoEntrega))
+      newErrors.tipoEntrega = 'El tipo de entrega no es válido.';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
     setForm((prev) => ({
-...prev,
-    [name]: value,
+      ...prev,
+      [name]: value,
     }));
-};
+  };
 
-return (
+  return (
     <div className="requirements-container">
-        <form className="requirements-form">
+      <form className="requirements-form" noValidate>
         <label>
-            Nombre:
-        <input
+          Nombre:
+          <input
             type="text"
             name="nombre"
             value={form.nombre}
             onChange={handleChange}
-        />
+            aria-describedby="error-nombre"
+          />
+          {errors.nombre && (
+            <p id="error-nombre" className="error-message">
+              {errors.nombre}
+            </p>
+          )}
         </label>
+
         <label>
-            Presupuesto máximo (COP):
-        <input
+          Presupuesto máximo (COP):
+          <input
             type="text"
             name="presupuesto"
             value={form.presupuesto}
             onChange={handleChange}
-        />
+            aria-describedby="error-presupuesto"
+          />
+          {errors.presupuesto && (
+            <p id="error-presupuesto" className="error-message">
+              {errors.presupuesto}
+            </p>
+          )}
         </label>
+
         <label>
-            Dirección:
-        <input
+          Dirección:
+          <input
             type="text"
             name="direccion"
             value={form.direccion}
             onChange={handleChange}
-        />
+            aria-describedby="error-direccion"
+          />
+          {errors.direccion && (
+            <p id="error-direccion" className="error-message">
+              {errors.direccion}
+            </p>
+          )}
         </label>
+
         <label>
-            Tipo de entrega:
-        <select
+          Tipo de entrega:
+          <select
             name="tipoEntrega"
             value={form.tipoEntrega}
             onChange={handleChange}
-        >
+            aria-describedby="error-tipoEntrega"
+          >
             <option value="domicilio">Domicilio</option>
             <option value="retiro">Retiro en tienda</option>
-        </select>
+          </select>
+          {errors.tipoEntrega && (
+            <p id="error-tipoEntrega" className="error-message">
+              {errors.tipoEntrega}
+            </p>
+          )}
         </label>
-    </form>
+      </form>
     </div>
-    
-);
+  );
 }
