@@ -43,9 +43,22 @@ export default function Requirements() {
     }));
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      setRequirements({
+        nombre: form.nombre.trim(),
+        presupuesto: Number(form.presupuesto),
+        direccion: form.direccion.trim(),
+        tipoEntrega: form.tipoEntrega,
+      });
+      navigate('/products');
+    }
+  };
+
   return (
     <div className="requirements-container">
-      <form className="requirements-form" noValidate>
+      <form onSubmit={handleSubmit} noValidate className="requirements-form">
         <label>
           Nombre:
           <input
@@ -54,6 +67,8 @@ export default function Requirements() {
             value={form.nombre}
             onChange={handleChange}
             aria-describedby="error-nombre"
+            maxLength={20}
+            required
           />
           {errors.nombre && (
             <p id="error-nombre" className="error-message">
@@ -70,6 +85,8 @@ export default function Requirements() {
             value={form.presupuesto}
             onChange={handleChange}
             aria-describedby="error-presupuesto"
+            required
+            inputMode="numeric"
           />
           {errors.presupuesto && (
             <p id="error-presupuesto" className="error-message">
@@ -86,6 +103,7 @@ export default function Requirements() {
             value={form.direccion}
             onChange={handleChange}
             aria-describedby="error-direccion"
+            required
           />
           {errors.direccion && (
             <p id="error-direccion" className="error-message">
@@ -101,6 +119,7 @@ export default function Requirements() {
             value={form.tipoEntrega}
             onChange={handleChange}
             aria-describedby="error-tipoEntrega"
+            required
           >
             <option value="domicilio">Domicilio</option>
             <option value="retiro">Retiro en tienda</option>
@@ -111,6 +130,10 @@ export default function Requirements() {
             </p>
           )}
         </label>
+
+        <div className="buttons-group">
+          <button type="submit">Iniciar compra</button>
+        </div>
       </form>
     </div>
   );
