@@ -12,6 +12,16 @@ export default function RecipeCard({ recipe, addToCart }) {
                     loading="lazy"
                 />
             </Link>
+            <h3>
+                <Link
+                    to={`/recipe/${encodeURIComponent(recipe.name)}`}
+                    style={{ color: 'inherit', textDecoration: 'none' }}
+                >
+                    {recipe.name}
+                </Link>
+            </h3>
+            
+
 
             <Link to={`/recipe/${encodeURIComponent(recipe.name)}`}>
                 <h3>{recipe.name}</h3>
