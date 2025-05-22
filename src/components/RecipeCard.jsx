@@ -61,12 +61,7 @@ export default function RecipeCard({ recipe, addToCart }) {
                     <span className="label">Proteínas</span>
                 </div>
             </section>
-
-
-            <Link to={`/recipe/${encodeURIComponent(recipe.name)}`}>
-                <h3>{recipe.name}</h3>
-            </Link>
-            <h3>{recipe.name}</h3>
+            
             <button onClick={() => addToCart(recipe)}>AÑADIR</button>
         </article>
     );
