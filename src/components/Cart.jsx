@@ -237,3 +237,92 @@ export default function Cart() {
                     </div>
                 </aside>
             )}
+            {isOpen && isPaying && (
+                <aside
+                    className="cart-aside"
+                    aria-label="Formulario de pago"
+                >
+                    <button
+                        onClick={handleCancelPayment}
+                        className="payment-close-btn"
+                        aria-label="Volver al carrito"
+                    >
+                        &times;
+                    </button>
+
+                    <h2 className="payment-title">Formulario de pago</h2>
+
+                    <form onSubmit={handlePaySubmit} className="payment-form">
+                        <label>
+                            Nombre completo:
+                            <input
+                                type="text"
+                                name="nombre"
+                                value={formData.nombre}
+                                onChange={handleInputChange}
+                                required
+                                placeholder="Tu nombre completo"
+                            />
+                        </label>
+                        <label>
+                            Dirección:
+                            <input
+                                type="text"
+                                name="direccion"
+                                value={formData.direccion}
+                                onChange={handleInputChange}
+                                required
+                                placeholder="Dirección de envío"
+                            />
+                        </label>
+                        <label>
+                            Tarjeta de débito/crédito:
+                            <input
+                                type="text"
+                                name="tarjeta"
+                                value={formData.tarjeta}
+                                onChange={handleInputChange}
+                                required
+                                placeholder="Número de tarjeta"
+                                maxLength={19}
+                                pattern="\d{13,19}"
+                                title="Número de tarjeta válido"
+                            />
+                        </label>
+                        <label>
+                            Fecha de expiración (MM/AA):
+                            <input
+                                type="text"
+                                name="fechaExp"
+                                value={formData.fechaExp}
+                                onChange={handleInputChange}
+                                required
+                                placeholder="MM/AA"
+                                maxLength={5}
+                                pattern="^(0[1-9]|1[0-2])\/\d{2}$"
+                                title="Formato MM/AA"
+                            />
+                        </label>
+                        <label>
+                            CVV:
+                            <input
+                                type="text"
+                                name="cvv"
+                                value={formData.cvv}
+                                onChange={handleInputChange}
+                                required
+                                placeholder="Código CVV"
+                                maxLength={4}
+                                pattern="\d{3,4}"
+                                title="3 o 4 dígitos CVV"
+                            />
+                        </label>
+                        <button type="submit" className="payment-submit-btn">
+                            Confirmar pago
+                        </button>
+                    </form>
+                </aside>
+            )}
+        </>
+    );
+}
