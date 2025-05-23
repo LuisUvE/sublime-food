@@ -24,3 +24,59 @@
     padding: 0 12px;
   }
 }
+
+/* Título principal */
+h1 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  font-size: 2.5rem;
+  color: #d35400;
+  text-align: center;
+  margin-bottom: 2rem;
+  user-select: none;
+}
+
+/* Sección de filtros */
+.filters {
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* Estilo sutil y moderno para botones de filtros */
+.filters button {
+  padding: 10px 24px;
+  font-size: 1rem;
+  border-radius: 25px;           /* Botones redondos */
+  border: 1.5px solid #d35400;   /* Borde naranja */
+  background-color: transparent; /* Fondo transparente */
+  color: #d35400;                /* Texto naranja */
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: none;
+  min-width: 100px;
+}
+
+.filters button:hover {
+  background-color: #d35400;      /* Fondo naranja en hover */
+  color: #fff;                    /* Texto blanco */
+  box-shadow: 0 4px 12px rgba(211, 84, 0, 0.4);
+}
+
+.filters button:active {
+  background-color: #b84300;      /* Fondo naranja oscuro al click */
+  border-color: #b84300;
+  box-shadow: 0 2px 6px rgba(184, 67, 0, 0.6);
+}
+
+.filters button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(211, 84, 0, 0.5);
+}
+
