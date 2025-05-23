@@ -31,11 +31,26 @@ const getRecipeByName = (name) => {
 const RecipeDetail = () => {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     const r = getRecipeByName(id);
-    setRecipe(r || null);
+    if (r) {
+      setRecipe(r);
+      setNotFound(false);
+    } else {
+      setRecipe(null);
+      setNotFound(true);
+    }
   }, [id]);
+
+  if (notFound)
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <p>Receta no encontrada.</p>
+        <Link to="/products">Volver a la lista de recetas</Link>
+      </div>
+    );
 
   if (!recipe) return <p className="message">Cargando...</p>;
 
@@ -52,4 +67,3 @@ const RecipeDetail = () => {
   );
 };
 
-export default RecipeDetail;
