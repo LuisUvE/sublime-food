@@ -61,7 +61,7 @@ export default function RecipeCard({ recipe, addToCart }) {
                     <span className="label">Proteínas</span>
                 </div>
             </section>
-            
+
             <button onClick={() => addToCart(recipe)}>AÑADIR</button>
         </article>
     );
