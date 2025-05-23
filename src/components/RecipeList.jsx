@@ -57,11 +57,13 @@ const RecipeList = () => {
                     </select>
                 </label>
             </div>
- 
+
             <div className="recipe-list">
-                {filteredRecipes.map(recipe => (
-                    <RecipeCard key={recipe.id} recipe={recipe} />
-                ))}
+                {filteredRecipes.length === 0 ? (
+                    <p className="message">No hay recetas que coincidan con el filtro.</p>
+                ) : (
+                    filteredRecipes.map(recipe => <RecipeCard key={recipe.id} recipe={recipe} />)
+                )}
             </div>
         </div>
     );
