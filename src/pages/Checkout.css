@@ -1,3 +1,6 @@
+/* Checkout.css */
+
+/* Contenedor principal con grid para tarjetas */
 .app-container {
   width: 100%;
   max-width: 1280px;
@@ -46,6 +49,45 @@ h1 {
   justify-content: center;
 }
 
+/* Filtros modernos y visibles */
+
+.filters select,
+.filters input[type="text"] {
+  padding: 12px 20px;
+  font-size: 1.05rem;
+  border-radius: 30px;           /* Más redondeado */
+  border: 2px solid #e67e22;     /* Borde naranja fuerte */
+  background-color: #fff;        /* Fondo blanco */
+  color: #2c3e50;                /* Texto azul oscuro */
+  font-family: 'Poppins', sans-serif;
+  min-width: 180px;
+  box-shadow: 0 2px 6px rgba(230, 126, 34, 0.25);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  user-select: text;
+  cursor: text;
+}
+
+.filters select:hover,
+.filters input[type="text"]:hover {
+  border-color: #d35400;
+  box-shadow: 0 4px 12px rgba(211, 84, 0, 0.45);
+}
+
+.filters select:focus,
+.filters input[type="text"]:focus {
+  border-color: #f39c12;
+  outline: none;
+  box-shadow: 0 0 10px rgba(243, 156, 18, 0.8);
+}
+
+/* Placeholder visible y estilizado */
+.filters input[type="text"]::placeholder {
+  color: #a39e9e;
+  font-style: italic;
+}
+
+
+
 /* Estilo sutil y moderno para botones de filtros */
 .filters button {
   padding: 10px 24px;
@@ -78,5 +120,16 @@ h1 {
 .filters button:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(211, 84, 0, 0.5);
+}
+
+
+/* Mensaje cuando no hay resultados */
+.no-results {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #d35400;
+  margin-top: 2rem;
+  user-select: none;
 }
 
