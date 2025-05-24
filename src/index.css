@@ -1,13 +1,87 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #fafafa;
+  color: #34495e;
+  overflow-x: hidden;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Contenedor general para evitar scroll horizontal */
+.app-container {
+  box-sizing: border-box;
+}
+
+
+/* Tarjetas de receta */
+.recipe-card {
+  background: #fff;
+  border-radius: 28px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+  width: 100%;
+  max-width: 320px;
+  padding: 32px 24px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  text-align: center;
+  user-select: none;
+  cursor: default;
+}
+
+.recipe-card:hover {
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
+  transform: translateY(-8px);
+}
+
+/* Imagen receta */
+.recipe-card img.recipe-image {
+  width: 100%;
+  height: 200px;
+  border-radius: 20px;
+  object-fit: cover;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+  display: block;
+  max-width: 100%;
+}
+
+.recipe-card:hover img.recipe-image {
+  transform: scale(1.05);
+}
+
+/* Texto y etiquetas */
+.recipe-card h3 {
+  font-weight: 900;
+  font-size: 1.4rem;
+  color: #34495e;
+  letter-spacing: 0.06em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: calc(1.65rem * 2);
+  line-height: 1.65rem;
+}
+
+.recipe-card .weight {
+  font-style: italic;
+  color: #7f8c8d;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+}
+
+.recipe-card .price {
+  font-weight: 900;
+  font-size: 1.7rem;
+  color: #d35400;
+  letter-spacing: 0.12em;
+  margin-bottom: 8px;
+  user-select: none;
 }
