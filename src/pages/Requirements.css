@@ -18,6 +18,7 @@
   background-size: 150px 150px, 200px 200px;
 }
 
+/* Imagen decorativa sutil en esquina superior derecha */
 .requirements-container::before {
   content: "";
   position: absolute;
@@ -25,7 +26,7 @@
   right: 10px;
   width: 130px;
   height: 130px;
-  background-image: url('https://cdn-icons-png.flaticon.com/512/3075/3075977.png');
+  background-image: url('https://cdn-icons-png.flaticon.com/512/3075/3075977.png'); /* icono comida */
   background-size: contain;
   background-repeat: no-repeat;
   opacity: 0.12;
@@ -33,6 +34,7 @@
   z-index: 0;
 }
 
+/* Imagen decorativa sutil en esquina inferior izquierda */
 .requirements-container::after {
   content: "";
   position: absolute;
@@ -40,7 +42,7 @@
   left: 15px;
   width: 100px;
   height: 100px;
-  background-image: url('https://cdn-icons-png.flaticon.com/512/1046/1046787.png');
+  background-image: url('https://cdn-icons-png.flaticon.com/512/1046/1046787.png'); /* otro icono */
   background-size: contain;
   background-repeat: no-repeat;
   opacity: 0.12;
@@ -48,11 +50,11 @@
   z-index: 0;
 }
 
+/* Para que el contenido esté sobre las imágenes */
 .requirements-container > * {
   position: relative;
   z-index: 1;
 }
-
 
 /* Título y subtítulo */
 .requirements-container h1 {
