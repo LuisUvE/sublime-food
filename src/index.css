@@ -207,3 +207,81 @@ a:hover {
   border-bottom: 1px solid #ddd;
   padding-bottom: 10px;
 }
+
+
+/* Total y detalles */
+.cart-total,
+.cart-delivery-cost,
+.cart-final-total {
+  text-align: center;
+  font-weight: 900;
+  user-select: none;
+  margin-bottom: 8px;
+}
+
+.cart-total {
+  font-size: 1.4rem;
+  color: #d35400;
+}
+
+.cart-delivery-cost {
+  font-size: 1.2rem;
+  color: #34495e;
+}
+
+.cart-final-total {
+  font-size: 1.6rem;
+  color: #e74c3c;
+  margin-bottom: 16px;
+}
+
+/* Contenedor botones */
+.cart-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+/* Botones */
+.cart-button {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.9rem;
+  min-width: 100px;
+  transition: background-color 0.3s ease;
+}
+
+/* Botón limpiar carrito */
+.cart-clear-btn {
+  background-color: #bdc3c7;
+  color: #fdfeff;
+}
+
+.cart-clear-btn:hover {
+  background-color: #ffffff;
+}
+
+/* Botón pagar */
+.cart-pay-btn {
+  background-color: #d35400;
+  color: white;
+  min-width: 120px;
+  padding: 10px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(211, 84, 0, 0.6);
+}
+
+.cart-pay-btn:hover {
+  background-color: #b84300;
+}
+
+/* Botón pagar hover transition */
+.cart-pay-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.7);
+}
