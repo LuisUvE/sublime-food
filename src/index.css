@@ -14,7 +14,6 @@ body {
   box-sizing: border-box;
 }
 
-
 /* Tarjetas de receta */
 .recipe-card {
   background: #fff;
@@ -208,7 +207,6 @@ a:hover {
   padding-bottom: 10px;
 }
 
-
 /* Total y detalles */
 .cart-total,
 .cart-delivery-cost,
@@ -284,4 +282,69 @@ a:hover {
 .cart-pay-btn:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.7);
+}
+
+/* Panel formulario pago */
+/* Reutiliza .cart-aside para posicion y estilos base */
+
+.payment-close-btn {
+  align-self: flex-end;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.payment-title {
+  font-weight: 900;
+  font-size: 1.8rem;
+  color: #d35400;
+  margin-bottom: 1rem;
+}
+
+/* Formulario */
+.payment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.payment-form label {
+  font-weight: 600;
+  color: #d35400;
+  font-size: 1rem;
+}
+
+.payment-form input {
+  width: 100%;
+  padding: 6px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1.5px solid #f39c12;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.payment-form input:focus {
+  border-color: #e67e22;
+  outline: none;
+  box-shadow: 0 0 6px rgba(230, 126, 34, 0.6);
+}
+
+.payment-submit-btn {
+  padding: 10px;
+  background-color: #d35400;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease;
+}
+
+.payment-submit-btn:hover {
+  background-color: #b84300;
 }
