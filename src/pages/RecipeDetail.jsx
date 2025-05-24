@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
+// Usa el mismo array allRecipes que en Checkout.jsx (puedes exportarlo de un archivo común)
 const allRecipes = [
   {
     name: "Penne rigate con longaniza",
