@@ -149,3 +149,61 @@ body {
   background: linear-gradient(90deg, #f39c12 0%, #e67e22 100%);
   box-shadow: 0 10px 28px rgba(243, 156, 18, 0.85);
 }
+
+/* Otros estilos globales, como links, formularios, etc. */
+a {
+  color: #d35400;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Botones Pagar y Limpiar carro en carrito */
+.cart-aside {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 350px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -3px 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Botón cerrar carrito */
+.cart-close-btn {
+  align-self: flex-end;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Título carrito */
+.cart-title {
+  margin: 0 0 12px 0;
+  font-weight: 900;
+  font-size: 1.6rem;
+  color: #d35400;
+}
+
+/* Lista de productos en carrito */
+.cart-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.cart-list li {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
