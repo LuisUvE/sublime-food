@@ -127,3 +127,25 @@ body {
   height: 28px;
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.05));
 }
+
+/* Botón añadir */
+.recipe-card button {
+  width: 100%;
+  padding: 16px 0;
+  background: linear-gradient(90deg, #e67e22 0%, #f39c12 100%);
+  color: white;
+  font-weight: 900;
+  border-radius: 50px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 7px 20px rgba(230, 126, 34, 0.6);
+  transition: background 0.35s ease, box-shadow 0.35s ease;
+  user-select: none;
+  text-align: center;
+}
+
+.recipe-card button:hover {
+  background: linear-gradient(90deg, #f39c12 0%, #e67e22 100%);
+  box-shadow: 0 10px 28px rgba(243, 156, 18, 0.85);
+}
