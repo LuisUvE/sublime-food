@@ -85,3 +85,45 @@ body {
   margin-bottom: 8px;
   user-select: none;
 }
+
+/* Información nutricional */
+.nutrition-info {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding-top: 14px;
+  border-top: 1.5px solid #ecf0f1;
+  color: #34495e;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  gap: 12px;
+}
+
+.nutrition-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  user-select: none;
+}
+
+.nutrition-item span.value {
+  font-weight: 900;
+  font-size: 1.15rem;
+  color: #d35400;
+}
+
+.nutrition-item span.label {
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: #7f8c8d;
+  letter-spacing: 0.04em;
+}
+
+.nutrition-item img {
+  width: 28px;
+  height: 28px;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.05));
+}
