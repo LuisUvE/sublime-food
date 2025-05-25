@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { CartContext } from '../context/CartContext';
 
-export default function RecipeCard({ recipe, addToCart }) {
+const formatPrice = (price) => {
+    return new Intl.NumberFormat('es-CO', {
+        style: 'currency',
+        currency: 'COP',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    }).format(price);
+};
+
+export default function RecipeCard({ recipe }) {
+    const { addToCart } = useContext(CartContext);
+
     return (
         <article className="recipe-card" aria-label={`Receta: ${recipe.name}`}>
             <Link to={`/recipe/${encodeURIComponent(recipe.name)}`}>
@@ -21,7 +33,7 @@ export default function RecipeCard({ recipe, addToCart }) {
                 </Link>
             </h3>
             <div className="weight">({recipe.weight})</div>
-            <div className="price">${recipe.price}</div>
+            <div className="price">{formatPrice(recipe.price)}</div>
 
             <section className="nutrition-info" aria-label="Información nutricional">
                 <div className="nutrition-item">

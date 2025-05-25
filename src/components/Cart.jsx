@@ -6,7 +6,7 @@ const DELIVERY_COST = 10000;
 
 export default function Cart() {
     const { requirements } = useContext(RequirementsContext);
-    const { cartItems, totalQuantity, setCartItems } = useContext(CartContext);
+    const { cartItems, totalQuantity, setCartItems, removeFromCart } = useContext(CartContext);
     const [isOpen, setIsOpen] = useState(false);
     const [isPaying, setIsPaying] = useState(false);
 
@@ -75,6 +75,7 @@ export default function Cart() {
             cvv: "",
         });
     };
+
     return (
         <>
             {/* Icono carrito fijo */}
@@ -128,6 +129,7 @@ export default function Cart() {
                     </span>
                 )}
             </div>
+
             {isOpen && !isPaying && (
                 <aside
                     className="cart-aside"
@@ -149,17 +151,49 @@ export default function Cart() {
                         ) : (
                             <ul className="cart-list">
                                 {cartItems.map((item, i) => (
-                                    <li key={i}>
-                                        <strong>{item.name}</strong>
-                                        <div>Cantidad: {item.quantity}</div>
-                                        <div>Precio unitario: ${item.price}</div>
+                                    <li key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <div>
-                                            Subtotal: $
-                                            {(
-                                                parseFloat(item.price.replace(/[^0-9.-]+/g, "")) *
-                                                item.quantity
-                                            ).toFixed(2)}
+                                            <strong>{item.name}</strong>
+                                            <div>Cantidad: {item.quantity}</div>
+                                            <div>Precio unitario: ${item.price}</div>
+                                            <div>
+                                                Subtotal: $
+                                                {(
+                                                    parseFloat(item.price.replace(/[^0-9.-]+/g, "")) *
+                                                    item.quantity
+                                                ).toFixed(2)}
+                                            </div>
                                         </div>
+                                        <button
+                                            onClick={() => removeFromCart(item.name)}
+                                            className="cart-remove-btn"
+                                            aria-label={`Eliminar ${item.name} del carrito`}
+                                            style={{
+                                                background: 'none',
+                                                border: 'none',
+                                                color: '#e74c3c',
+                                                cursor: 'pointer',
+                                                padding: '8px',
+                                                fontSize: '1.2rem',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                minWidth: '40px',
+                                                height: '40px',
+                                                borderRadius: '50%',
+                                                transition: 'all 0.2s ease'
+                                            }}
+                                            onMouseOver={(e) => {
+                                                e.currentTarget.style.backgroundColor = '#fee2e2';
+                                                e.currentTarget.style.transform = 'scale(1.1)';
+                                            }}
+                                            onMouseOut={(e) => {
+                                                e.currentTarget.style.backgroundColor = 'transparent';
+                                                e.currentTarget.style.transform = 'scale(1)';
+                                            }}
+                                        >
+                                            ×
+                                        </button>
                                     </li>
                                 ))}
                             </ul>
@@ -183,60 +217,6 @@ export default function Cart() {
                 </aside>
             )}
 
-            {isOpen && !isPaying && (
-                <aside
-                    className="cart-aside"
-                    aria-label="Carrito de compras"
-                >
-                    <button
-                        onClick={() => setIsOpen(false)}
-                        className="cart-close-btn"
-                        aria-label="Cerrar carrito"
-                    >
-                        &times;
-                    </button>
-
-                    <h2 className="cart-title">Tu carrito</h2>
-
-                    <div className="cart-list-container" style={{ flexGrow: 1, overflowY: "auto", marginBottom: 12 }}>
-                        {cartItems.length === 0 ? (
-                            <p>Tu carrito está vacío.</p>
-                        ) : (
-                            <ul className="cart-list">
-                                {cartItems.map((item, i) => (
-                                    <li key={i}>
-                                        <strong>{item.name}</strong>
-                                        <div>Cantidad: {item.quantity}</div>
-                                        <div>Precio unitario: ${item.price}</div>
-                                        <div>
-                                            Subtotal: $
-                                            {(
-                                                parseFloat(item.price.replace(/[^0-9.-]+/g, "")) *
-                                                item.quantity
-                                            ).toFixed(2)}
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </div>
-
-                    <div className="cart-total">Total productos: ${totalPrice.toFixed(2)}</div>
-                    {requirements.tipoEntrega === "domicilio" && (
-                        <div className="cart-delivery-cost">Costo domicilio: ${DELIVERY_COST.toFixed(2)}</div>
-                    )}
-                    <div className="cart-final-total">Total a pagar: ${totalFinal.toFixed(2)}</div>
-
-                    <div className="cart-buttons" style={{ marginBottom: 12 }}>
-                        <button className="cart-pay-btn cart-button" onClick={handlePayClick}>
-                            Pagar
-                        </button>
-                        <button className="cart-clear-btn cart-button" onClick={handleClearCart}>
-                            Limpiar carrito
-                        </button>
-                    </div>
-                </aside>
-            )}
             {isOpen && isPaying && (
                 <aside
                     className="cart-aside"
