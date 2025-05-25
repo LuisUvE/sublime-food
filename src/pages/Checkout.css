@@ -41,87 +41,110 @@ h1 {
 
 /* Sección de filtros */
 .filters {
-  max-width: 600px;
-  margin: 0 auto 2rem;
+  max-width: 800px;
+  margin: 0 auto 2.5rem;
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 16px;
   justify-content: center;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(211, 84, 0, 0.1);
+  backdrop-filter: blur(8px);
+  transition: box-shadow 0.3s ease;
+}
+
+.filters:hover {
+  box-shadow: 0 12px 40px rgba(211, 84, 0, 0.15);
 }
 
 /* Filtros modernos y visibles */
-
 .filters select,
 .filters input[type="text"] {
-  padding: 12px 20px;
-  font-size: 1.05rem;
-  border-radius: 30px;           /* Más redondeado */
-  border: 2px solid #e67e22;     /* Borde naranja fuerte */
-  background-color: #fff;        /* Fondo blanco */
-  color: #2c3e50;                /* Texto azul oscuro */
+  padding: 14px 24px;
+  font-size: 1.1rem;
+  border-radius: 30px;
+  border: 2px solid #f39c12;
+  background-color: #fff;
+  color: #2c3e50;
   font-family: 'Poppins', sans-serif;
-  min-width: 180px;
-  box-shadow: 0 2px 6px rgba(230, 126, 34, 0.25);
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
-  user-select: text;
-  cursor: text;
+  min-width: 200px;
+  box-shadow: 0 4px 12px rgba(243, 156, 18, 0.15);
+  transition: all 0.3s ease;
+  position: relative;
+  backdrop-filter: blur(4px);
+}
+
+.filters select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23f39c12' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 48px;
 }
 
 .filters select:hover,
 .filters input[type="text"]:hover {
-  border-color: #d35400;
-  box-shadow: 0 4px 12px rgba(211, 84, 0, 0.45);
+  border-color: #e67e22;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(230, 126, 34, 0.25);
 }
 
 .filters select:focus,
 .filters input[type="text"]:focus {
-  border-color: #f39c12;
+  border-color: #d35400;
   outline: none;
-  box-shadow: 0 0 10px rgba(243, 156, 18, 0.8);
+  box-shadow: 0 0 0 3px rgba(211, 84, 0, 0.2), 0 6px 16px rgba(230, 126, 34, 0.25);
+  transform: translateY(-2px);
 }
 
 /* Placeholder visible y estilizado */
 .filters input[type="text"]::placeholder {
-  color: #a39e9e;
+  color: #95a5a6;
   font-style: italic;
+  transition: color 0.3s ease;
 }
 
+.filters input[type="text"]:focus::placeholder {
+  color: #bdc3c7;
+}
 
-
-/* Estilo sutil y moderno para botones de filtros */
+/* Estilo moderno para botones de filtros */
 .filters button {
-  padding: 10px 24px;
-  font-size: 1rem;
-  border-radius: 25px;           /* Botones redondos */
-  border: 1.5px solid #d35400;   /* Borde naranja */
-  background-color: transparent; /* Fondo transparente */
-  color: #d35400;                /* Texto naranja */
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  border-radius: 30px;
+  border: none;
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  color: white;
   font-weight: 700;
   font-family: 'Poppins', sans-serif;
   cursor: pointer;
-  user-select: none;
-  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: none;
-  min-width: 100px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(230, 126, 34, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 140px;
+  position: relative;
+  overflow: hidden;
 }
 
 .filters button:hover {
-  background-color: #d35400;      /* Fondo naranja en hover */
-  color: #fff;                    /* Texto blanco */
-  box-shadow: 0 4px 12px rgba(211, 84, 0, 0.4);
+  background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(230, 126, 34, 0.4);
 }
 
 .filters button:active {
-  background-color: #b84300;      /* Fondo naranja oscuro al click */
-  border-color: #b84300;
-  box-shadow: 0 2px 6px rgba(184, 67, 0, 0.6);
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(230, 126, 34, 0.3);
 }
 
 .filters button:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(211, 84, 0, 0.5);
+  box-shadow: 0 0 0 3px rgba(211, 84, 0, 0.3), 0 6px 16px rgba(230, 126, 34, 0.4);
 }
-
 
 /* Mensaje cuando no hay resultados */
 .no-results {
@@ -130,6 +153,22 @@ h1 {
   font-size: 1.2rem;
   color: #d35400;
   margin-top: 2rem;
-  user-select: none;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(211, 84, 0, 0.1);
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
