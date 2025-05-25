@@ -1,209 +1,140 @@
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { recipes } from '../data/recipes';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { RequirementsContext } from '../context/RequirementsContext';
+import './Requirements.css';
 
-const normalizeString = (str) => str.trim().toLowerCase();
+export default function Requirements() {
+  const { requirements, setRequirements } = useContext(RequirementsContext);
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
-const formatPrice = (price) => {
-  return new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: 'COP',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0
-  }).format(price);
-};
+  const [form, setForm] = useState({
+    nombre: requirements.nombre,
+    presupuesto: requirements.presupuesto,
+    direccion: requirements.direccion,
+    tipoEntrega: requirements.tipoEntrega,
+  });
 
-const getRecipeByName = (name) => {
-  const normalizedName = normalizeString(name);
-  return recipes.find(recipe => normalizeString(recipe.name) === normalizedName);
-};
+  const validate = () => {
+    const newErrors = {};
+    if (!form.nombre.trim()) newErrors.nombre = 'El nombre es obligatorio.';
+    else if (form.nombre.trim().length > 20)
+      newErrors.nombre = 'El nombre no puede tener más de 20 caracteres.';
 
-const RecipeDetail = () => {
-  const { id } = useParams();
-  const recipe = getRecipeByName(decodeURIComponent(id));
+    if (!form.presupuesto || isNaN(form.presupuesto))
+      newErrors.presupuesto = 'El presupuesto es obligatorio y debe ser un número.';
+    else if (Number(form.presupuesto) <= 0)
+      newErrors.presupuesto = 'El presupuesto debe ser mayor que cero.';
 
-  if (!recipe) {
-    return (
-      <div style={{ textAlign: 'center', padding: '2rem' }}>
-        <h2>Receta no encontrada</h2>
-        <Link to="/products" className="back-button">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          Volver a recetas
-        </Link>
-      </div>
-    );
-  }
+    if (!form.direccion.trim()) newErrors.direccion = 'La dirección es obligatoria.';
+
+    if (!['domicilio', 'retiro'].includes(form.tipoEntrega))
+      newErrors.tipoEntrega = 'El tipo de entrega no es válido.';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      setRequirements({
+        nombre: form.nombre.trim(),
+        presupuesto: Number(form.presupuesto),
+        direccion: form.direccion.trim(),
+        tipoEntrega: form.tipoEntrega,
+      });
+      navigate('/products');
+    }
+  };
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '1rem 2rem' }}>
-      <Link to="/products" className="back-button">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-        Volver a recetas
-      </Link>
-
-      <div className="recipe-details-container">
-        <h1 style={{ 
-          color: '#d35400',
-          marginBottom: '1.5rem',
-          fontSize: '2.5rem',
-          fontWeight: '900'
-        }}>{recipe.name}</h1>
-
-        <div style={{ 
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '2rem',
-          marginBottom: '2rem'
-        }}>
-          <img 
-            src={recipe.image} 
-            alt={recipe.name}
-            style={{
-              width: '100%',
-              height: '400px',
-              objectFit: 'cover',
-              borderRadius: '12px',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-            }}
+    <div className="requirements-container">
+      <form onSubmit={handleSubmit} noValidate className="requirements-form">
+        <label>
+          Nombre:
+          <input
+            type="text"
+            name="nombre"
+            value={form.nombre}
+            onChange={handleChange}
+            aria-describedby="error-nombre"
+            maxLength={20}
+            required
           />
+          {errors.nombre && (
+            <p id="error-nombre" className="error-message">
+              {errors.nombre}
+            </p>
+          )}
+        </label>
 
-          <div>
-            <div style={{
-              background: '#f8f9fa',
-              padding: '1.5rem',
-              borderRadius: '12px',
-              marginBottom: '1.5rem'
-            }}>
-              <h2 style={{ 
-                color: '#d35400',
-                marginBottom: '1rem',
-                fontSize: '1.5rem',
-                fontWeight: '700'
-              }}>Información nutricional</h2>
-              <div style={{ 
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: '1rem'
-              }}>
-                <div>
-                  <p style={{ fontWeight: '600' }}>Calorías:</p>
-                  <p>{recipe.calories} kcal</p>
-                </div>
-                <div>
-                  <p style={{ fontWeight: '600' }}>Proteínas:</p>
-                  <p>{recipe.proteins}g</p>
-                </div>
-                <div>
-                  <p style={{ fontWeight: '600' }}>Carbohidratos:</p>
-                  <p>{recipe.carbs}g</p>
-                </div>
-                <div>
-                  <p style={{ fontWeight: '600' }}>Grasas:</p>
-                  <p>{recipe.fats}g</p>
-                </div>
-              </div>
-            </div>
+        <label>
+          Presupuesto máximo (COP):
+          <input
+            type="text"
+            name="presupuesto"
+            value={form.presupuesto}
+            onChange={handleChange}
+            aria-describedby="error-presupuesto"
+            required
+            inputMode="numeric"
+          />
+          {errors.presupuesto && (
+            <p id="error-presupuesto" className="error-message">
+              {errors.presupuesto}
+            </p>
+          )}
+        </label>
 
-            <div style={{
-              background: '#f8f9fa',
-              padding: '1.5rem',
-              borderRadius: '12px'
-            }}>
-              <h2 style={{ 
-                color: '#d35400',
-                marginBottom: '1rem',
-                fontSize: '1.5rem',
-                fontWeight: '700'
-              }}>Detalles</h2>
-              <div style={{ 
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: '1rem'
-              }}>
-                <div>
-                  <p style={{ fontWeight: '600' }}>Peso:</p>
-                  <p>{recipe.weight}</p>
-                </div>
-                <div>
-                  <p style={{ fontWeight: '600' }}>Precio:</p>
-                  <p style={{ color: '#d35400', fontWeight: '700', fontSize: '1.1rem' }}>
-                    {formatPrice(recipe.price)}
-                  </p>
-                </div>
-                <div>
-                  <p style={{ fontWeight: '600' }}>Cocina:</p>
-                  <p style={{ textTransform: 'capitalize' }}>{recipe.cuisine}</p>
-                </div>
-              </div>
-            </div>
-          </div>
+        <label>
+          Dirección:
+          <input
+            type="text"
+            name="direccion"
+            value={form.direccion}
+            onChange={handleChange}
+            aria-describedby="error-direccion"
+            required
+          />
+          {errors.direccion && (
+            <p id="error-direccion" className="error-message">
+              {errors.direccion}
+            </p>
+          )}
+        </label>
+
+        <label>
+          Tipo de entrega:
+          <select
+            name="tipoEntrega"
+            value={form.tipoEntrega}
+            onChange={handleChange}
+            aria-describedby="error-tipoEntrega"
+            required
+          >
+            <option value="domicilio">Domicilio</option>
+            <option value="retiro">Retiro en tienda</option>
+          </select>
+          {errors.tipoEntrega && (
+            <p id="error-tipoEntrega" className="error-message">
+              {errors.tipoEntrega}
+            </p>
+          )}
+        </label>
+
+        <div className="buttons-group">
+          <button type="submit">Iniciar compra</button>
         </div>
-
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '2rem',
-          marginTop: '2rem'
-        }}>
-          <div style={{
-            background: '#f8f9fa',
-            padding: '1.5rem',
-            borderRadius: '12px'
-          }}>
-            <h2 style={{ 
-              color: '#d35400',
-              marginBottom: '1rem',
-              fontSize: '1.5rem',
-              fontWeight: '700'
-            }}>Ingredientes</h2>
-            <ul style={{ listStyle: 'none', padding: 0 }}>
-              {recipe.ingredients?.map((ingredient, index) => (
-                <li 
-                  key={index}
-                  style={{
-                    padding: '0.5rem 0',
-                    borderBottom: index < recipe.ingredients.length - 1 ? '1px solid #dee2e6' : 'none'
-                  }}
-                >
-                  {ingredient}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div style={{
-            background: '#f8f9fa',
-            padding: '1.5rem',
-            borderRadius: '12px'
-          }}>
-            <h2 style={{ 
-              color: '#d35400',
-              marginBottom: '1rem',
-              fontSize: '1.5rem',
-              fontWeight: '700'
-            }}>Instrucciones</h2>
-            <ol style={{ paddingLeft: '1.2rem' }}>
-              {recipe.instructions?.map((instruction, index) => (
-                <li 
-                  key={index}
-                  style={{
-                    marginBottom: '0.5rem',
-                    lineHeight: '1.5'
-                  }}
-                >
-                  {instruction}
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
-      </div>
+      </form>
     </div>
   );
-};
-
-export default RecipeDetail;
+}
