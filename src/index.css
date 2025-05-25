@@ -359,3 +359,48 @@ a:hover {
 .payment-submit-btn:hover {
   background-color: #b84300;
 }
+
+/* Botón volver */
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #ffffff;
+  border: 2px solid #d35400;
+  border-radius: 50px;
+  color: #d35400;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  margin: 20px 0 0 20px;
+  box-shadow: 0 2px 8px rgba(211, 84, 0, 0.1);
+}
+
+.back-button:hover {
+  background: #d35400;
+  color: #ffffff;
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(211, 84, 0, 0.2);
+}
+
+.back-button svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.back-button:hover svg {
+  transform: translateX(-4px);
+}
+
+/* Contenedor de detalles de receta */
+.recipe-details-container {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
