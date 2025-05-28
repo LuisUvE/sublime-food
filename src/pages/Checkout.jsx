@@ -1,3 +1,12 @@
+/**
+ * Checkout.jsx - Página principal de productos
+ * 
+ * Esta página maneja:
+ * - Visualización de productos disponibles
+ * - Filtrado y búsqueda de productos
+ * - Integración con el carrito de compras
+ * - Validación de presupuesto
+ */
 import React, { useState, useContext, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import RecipeCard from "../components/RecipeCard";
@@ -6,45 +15,74 @@ import { CartContext } from "../context/CartContext";
 import { recipes } from "../data/recipes";
 import "./Checkout.css";
 
+// Número de productos por página para el scroll infinito
 const PAGE_SIZE = 8;
 
 export default function Checkout() {
+  // Contextos necesarios
   const { requirements } = useContext(RequirementsContext);
   const { cartItems, addToCart } = useContext(CartContext);
 
+  // Estados locales para la gestión de productos y filtros
   const [page, setPage] = useState(1);
-  const [filteredRecipes, setFilteredRecipes] = useState(recipes);
+  const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [cuisineFilter, setCuisineFilter] = useState("");
   const [textFilter, setTextFilter] = useState("");
-  const [displayedItems, setDisplayedItems] = useState(recipes.slice(0, PAGE_SIZE));
+  const [displayedItems, setDisplayedItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
 
+  // Inicialización de datos al montar el componente
   useEffect(() => {
-    let filtered = recipes;
+    if (recipes && recipes.length > 0) {
+      setFilteredRecipes(recipes);
+      setDisplayedItems(recipes.slice(0, PAGE_SIZE));
+      setIsLoading(false);
+      setHasMore(recipes.length > PAGE_SIZE);
+    }
+  }, []);
 
+  // Efecto para aplicar filtros cuando cambian
+  useEffect(() => {
+    if (!recipes) return;
+
+    let filtered = [...recipes];
+
+    // Aplicar filtro por tipo de cocina
     if (cuisineFilter) {
       filtered = filtered.filter((r) => r.cuisine === cuisineFilter);
     }
 
+    // Aplicar filtro por texto
     if (textFilter) {
       filtered = filtered.filter((r) =>
         r.name.toLowerCase().includes(textFilter.toLowerCase())
       );
     }
 
+    // Actualizar estado con resultados filtrados
     setFilteredRecipes(filtered);
     setDisplayedItems(filtered.slice(0, PAGE_SIZE));
     setPage(1);
   }, [cuisineFilter, textFilter]);
 
+  /**
+   * Carga más productos para el scroll infinito
+   * - Calcula el siguiente conjunto de productos
+   * - Actualiza la página actual
+   * - Maneja el ciclo de productos si se llega al final
+   */
   const fetchMoreData = () => {
+    if (!filteredRecipes || filteredRecipes.length === 0) return;
+
     let nextPage = page + 1;
     let start = page * PAGE_SIZE;
     let end = nextPage * PAGE_SIZE;
 
     let nextItems = filteredRecipes.slice(start, end);
 
+    // Si no hay más items, volver al inicio
     if (nextItems.length === 0) {
-      // Reiniciamos para repetir recetas
       start = 0;
       end = PAGE_SIZE;
       nextItems = filteredRecipes.slice(start, end);
@@ -55,7 +93,16 @@ export default function Checkout() {
     setPage(nextPage);
   };
 
+  /**
+   * Maneja la adición de productos al carrito
+   * - Valida el presupuesto disponible
+   * - Calcula el total actual del carrito
+   * - Agrega el producto si hay presupuesto suficiente
+   */
   const handleAddToCart = (product) => {
+    if (!product || !product.price) return;
+
+    // Calcular total actual del carrito
     const totalCurrent = cartItems.reduce((sum, item) => {
       const priceNum = parseFloat(
         item.price.replace(/[^0-9.,]/g, "").replace(",", ".")
@@ -63,10 +110,12 @@ export default function Checkout() {
       return sum + (priceNum || 0) * item.quantity;
     }, 0);
 
+    // Convertir precio del producto a número
     const productPrice = parseFloat(
       product.price.replace(/[^0-9.,]/g, "").replace(",", ".")
     );
 
+    // Validar contra presupuesto
     if (totalCurrent + productPrice > requirements.presupuesto) {
       alert("No puedes agregar este producto porque supera tu presupuesto.");
       return;
@@ -74,14 +123,20 @@ export default function Checkout() {
     addToCart(product);
   };
 
+  // Manejadores de filtros
   const handleFilterClick = () => {
-    // No hace falta hacer nada aquí porque el useEffect actualiza los filtros
+    // Los filtros se aplican automáticamente por el useEffect
   };
 
   const handleClearFilters = () => {
     setCuisineFilter("");
     setTextFilter("");
   };
+
+  // Mostrar loading mientras se cargan los datos iniciales
+  if (isLoading) {
+    return <div>Cargando...</div>;
+  }
 
   return (
     <>
@@ -100,6 +155,7 @@ export default function Checkout() {
         SUBLIME FOOD RESTAURANT
       </h1>
 
+      {/* Sección de filtros */}
       <section className="filters">
         <div>
           <select
@@ -130,15 +186,9 @@ export default function Checkout() {
         </div>
       </section>
 
+      {/* Visualización de productos */}
       {displayedItems.length === 0 ? (
-        <p
-          style={{
-            textAlign: "center",
-            fontWeight: "bold",
-            fontSize: "1.2rem",
-            color: "#d35400",
-          }}
-        >
+        <p className="no-results">
           No hay recetas que coincidan con el filtro.
         </p>
       ) : (
@@ -147,14 +197,7 @@ export default function Checkout() {
           next={fetchMoreData}
           hasMore={true}
           loader={
-            <p
-              style={{
-                textAlign: "center",
-                color: "#d35400",
-                fontWeight: "700",
-                marginTop: "1rem",
-              }}
-            >
+            <p className="loading">
               Cargando productos...
             </p>
           }

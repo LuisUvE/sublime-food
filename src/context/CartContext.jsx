@@ -1,12 +1,28 @@
+/**
+ * CartContext.jsx - Contexto para la gestión del carrito de compras
+ * 
+ * Este contexto proporciona:
+ * - Estado global para los items del carrito
+ * - Funciones para agregar y remover productos
+ * - Cálculo de cantidades totales
+ */
 import React, { createContext, useState } from 'react';
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+    // Estado principal: Array de items en el carrito
     const [cartItems, setCartItems] = useState([]);
 
+    // Calcula la cantidad total de items en el carrito
     const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
     
+    /**
+     * Agrega un producto al carrito
+     * @param {Object} product - Producto a agregar
+     * - Si el producto ya existe, incrementa su cantidad
+     * - Si es nuevo, lo agrega con cantidad 1
+     */
     const addToCart = (product) => {
         setCartItems(prevItems => {
             // Buscamos si el producto ya existe en el carrito
@@ -26,6 +42,12 @@ export const CartProvider = ({ children }) => {
         });
     };
 
+    /**
+     * Remueve un producto del carrito
+     * @param {string} productName - Nombre del producto a remover
+     * - Si hay más de uno, reduce la cantidad
+     * - Si solo hay uno, elimina el item completamente
+     */
     const removeFromCart = (productName) => {
         setCartItems(prevItems => {
             const existingItem = prevItems.find(item => item.name === productName);
@@ -47,8 +69,15 @@ export const CartProvider = ({ children }) => {
         });
     };
 
+    // Proveedor del contexto con los valores y funciones necesarias
     return (
-        <CartContext.Provider value={{ cartItems, setCartItems, addToCart, removeFromCart, totalQuantity }}>
+        <CartContext.Provider value={{ 
+            cartItems,      // Estado actual del carrito
+            setCartItems,   // Función para actualizar el carrito directamente
+            addToCart,      // Función para agregar productos
+            removeFromCart, // Función para remover productos
+            totalQuantity   // Cantidad total de items
+        }}>
             {children}
         </CartContext.Provider>
     );
